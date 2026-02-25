@@ -3,7 +3,7 @@ body,
 #root {
   height: 100%;
   margin: 0;
-  background: #020617;
+  background: #000;
   color: white;
 }
 
@@ -16,3 +16,62 @@ h1, h2, h3 {
   font-weight: 400;
   margin: 0;
 }
+
+/* ReactFlow custom styles */
+.react-flow__handle {
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 50%;
+}
+
+.react-flow__handle:hover {
+  background: #666;
+}
+
+.react-flow__handle-connecting {
+  background: #fff;
+}
+
+.react-flow__handle-valid {
+  background: #4ade80;
+}
+
+.react-flow__edge-path {
+  stroke: #666;
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #fff;
+}
+
+.react-flow__node {
+  cursor: grab;
+}
+
+.react-flow__node.selected {
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.react-flow__controls {
+  background: #000;
+  border: 1px solid #333;
+}
+
+.react-flow__controls-button {
+  background: #000;
+  border-bottom: 1px solid #333;
+  color: #fff;
+}
+
+.react-flow__controls-button:hover {
+  background: #111;
+}
+
+.react-flow__minimap {
+  background: #000;
+  border: 1px solid #333;
+}
+

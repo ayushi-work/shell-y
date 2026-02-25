@@ -8,18 +8,17 @@ export default function ScriptConfigPanel({ config, onChange }: any) {
       <button
         onClick={() => setExpanded(true)}
         style={{
-          position: "absolute",
-          top: 20,
-          left: 280,
-          zIndex: 10,
-          padding: "8px 12px",
-          borderRadius: 8,
-          border: "1px solid #1e293b",
-          background: "#020617",
+          padding: "8px 14px",
+          borderRadius: 6,
+          border: "1px solid #333",
+          background: "#000",
           color: "white",
           cursor: "pointer",
-          fontSize: 12
+          fontSize: 12,
+          transition: "all 0.2s"
         }}
+        onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#666")}
+        onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#333")}
       >
         ⚙️ Script Settings
       </button>
@@ -28,26 +27,28 @@ export default function ScriptConfigPanel({ config, onChange }: any) {
 
   const panelStyle = {
     position: "absolute" as const,
-    top: 20,
-    left: 280,
-    zIndex: 10,
-    width: 320,
+    top: 60,
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 100,
+    width: 360,
     maxHeight: "80vh",
     overflowY: "auto" as const,
     padding: 20,
-    borderRadius: 14,
-    border: "1px solid #1e293b",
+    borderRadius: 8,
+    border: "2px solid #333",
     display: "flex",
     flexDirection: "column" as const,
     gap: 12,
-    background: "#0f172a"
+    background: "#000",
+    boxShadow: "0 20px 60px rgba(0,0,0,0.8)"
   };
 
   const inputStyle = {
     padding: "8px 10px",
-    borderRadius: 8,
-    border: "1px solid #1e293b",
-    background: "#020617",
+    borderRadius: 6,
+    border: "1px solid #333",
+    background: "#000",
     color: "white",
     fontSize: 12,
     boxSizing: "border-box" as const,
@@ -61,7 +62,22 @@ export default function ScriptConfigPanel({ config, onChange }: any) {
   };
 
   return (
-    <div style={panelStyle}>
+    <>
+      {/* Backdrop */}
+      <div 
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(0,0,0,0.5)",
+          zIndex: 99
+        }}
+        onClick={() => setExpanded(false)}
+      />
+      
+      <div style={panelStyle}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h3 style={{ margin: 0 }}>⚙️ Script Settings</h3>
         <button
@@ -93,7 +109,7 @@ export default function ScriptConfigPanel({ config, onChange }: any) {
       </div>
 
       {/* Error Handling */}
-      <div style={{ borderTop: "1px solid #1e293b", paddingTop: 12 }}>
+      <div style={{ borderTop: "1px solid #333", paddingTop: 12 }}>
         <div style={{ fontSize: 11, textTransform: "uppercase", opacity: 0.5, marginBottom: 8 }}>
           Error Handling
         </div>
@@ -124,7 +140,7 @@ export default function ScriptConfigPanel({ config, onChange }: any) {
       </div>
 
       {/* Debug */}
-      <div style={{ borderTop: "1px solid #1e293b", paddingTop: 12 }}>
+      <div style={{ borderTop: "1px solid #333", paddingTop: 12 }}>
         <label style={{ fontSize: 12, display: "flex", gap: 6, alignItems: "center" }}>
           <input
             type="checkbox"
@@ -136,7 +152,7 @@ export default function ScriptConfigPanel({ config, onChange }: any) {
       </div>
 
       {/* Metadata */}
-      <div style={{ borderTop: "1px solid #1e293b", paddingTop: 12 }}>
+      <div style={{ borderTop: "1px solid #333", paddingTop: 12 }}>
         <div style={{ fontSize: 11, textTransform: "uppercase", opacity: 0.5, marginBottom: 8 }}>
           Metadata
         </div>
@@ -174,6 +190,7 @@ export default function ScriptConfigPanel({ config, onChange }: any) {
           />
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

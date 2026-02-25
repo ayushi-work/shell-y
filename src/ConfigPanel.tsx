@@ -4,23 +4,18 @@ export default function ConfigPanel({ node, onChange }: any) {
   if (!node) return null;
 
   const panelStyle = {
-    width: 280,
-    maxHeight: "80vh",
-    overflowY: "auto" as const,
-    padding: 20,
-    borderRadius: 14,
-    border: "1px solid #1e293b",
+    padding: 16,
     display: "flex",
     flexDirection: "column" as const,
     gap: 12,
-    background: "#0f172a"
+    background: "#000"
   };
 
   const inputStyle = {
     padding: "8px 10px",
-    borderRadius: 8,
-    border: "1px solid #1e293b",
-    background: "#020617",
+    borderRadius: 6,
+    border: "1px solid #333",
+    background: "#000",
     color: "white",
     fontSize: 12,
     boxSizing: "border-box" as const,
@@ -38,7 +33,7 @@ export default function ConfigPanel({ node, onChange }: any) {
     flexDirection: "column" as const,
     gap: 8,
     paddingBottom: 8,
-    borderBottom: "1px solid #1e293b"
+    borderBottom: "1px solid #333"
   };
 
   // Input file node
@@ -180,7 +175,7 @@ export default function ConfigPanel({ node, onChange }: any) {
           <summary style={{ cursor: "pointer", marginBottom: 8 }}>
             ⚙️ Advanced options
           </summary>
-          <div style={{ ...sectionStyle, paddingTop: 8, borderTop: "1px solid #1e293b", borderBottom: "none" }}>
+          <div style={{ ...sectionStyle, paddingTop: 8, borderTop: "1px solid #333", borderBottom: "none" }}>
             {advancedParams.map((param) => (
               <div key={param.name}>
                 <label style={labelStyle}>{param.label}</label>

@@ -48,69 +48,69 @@ export default function Sidebar() {
   };
 
   const sectionTitle = {
-    fontSize: 11,
-    letterSpacing: 0.6,
-    opacity: 0.6,
-    marginBottom: 6,
-    marginTop: 12,
-    textTransform: "uppercase"
+    fontSize: 12,
+    letterSpacing: 0.8,
+    opacity: 0.5,
+    marginBottom: 8,
+    marginTop: 16,
+    textTransform: "uppercase",
+    fontWeight: 600
   };
 
   const item = {
-    padding: "10px 12px",
-    borderRadius: 10,
-    border: "1px solid #1e293b",
+    padding: "10px 14px",
+    borderRadius: 6,
+    border: "1px solid #333",
     cursor: "grab",
     fontSize: 13,
-    transition: "border-color 0.2s"
+    transition: "all 0.2s",
+    background: "#000"
   };
 
   const categoryHeader = {
-    fontSize: 12,
-    opacity: 0.7,
+    fontSize: 13,
+    fontWeight: 600,
+    opacity: 0.8,
     marginBottom: 8,
+    marginTop: 16,
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
-    gap: 6,
-    userSelect: "none" as const
+    gap: 8,
+    userSelect: "none" as const,
+    padding: "4px 0"
   };
 
   const searchInputStyle = {
     width: "100%",
-    padding: "8px 10px",
-    borderRadius: 8,
-    border: "1px solid #1e293b",
-    background: "#020617",
+    padding: "10px 12px",
+    borderRadius: 6,
+    border: "1px solid #333",
+    background: "#000",
     color: "white",
-    fontSize: 12,
-    marginBottom: 12,
-    boxSizing: "border-box" as const
+    fontSize: 13,
+    marginBottom: 16,
+    boxSizing: "border-box" as const,
+    outline: "none",
+    transition: "border-color 0.2s"
   };
 
   return (
     <div
       style={{
-        width: 260,
-        padding: 20,
-        borderRight: "1px solid #1e293b",
+        width: 280,
+        padding: 16,
+        borderRight: "1px solid #333",
         display: "flex",
         flexDirection: "column",
-        gap: 8,
+        gap: 12,
         overflowY: "auto",
-        background: "#0f172a"
+        background: "#000"
       }}
     >
-      <div style={{ marginBottom: 12 }}>
-        <h1 style={{ fontSize: 22, marginBottom: 4 }}>Shell-y</h1>
-        <div style={{ fontSize: 11, opacity: 0.6 }}>
-          Visual shell builder
-        </div>
-      </div>
-
       <input
         type="text"
-        placeholder="Search commands..."
+        placeholder="🔍 Search commands..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         style={searchInputStyle as any}
@@ -118,8 +118,20 @@ export default function Sidebar() {
 
       {/* Sources */}
       <div>
-        <div style={sectionTitle}>Sources</div>
-        <div draggable onDragStart={drag({ type: "input" })} style={item}>
+        <div style={sectionTitle}>SOURCES</div>
+        <div 
+          draggable 
+          onDragStart={drag({ type: "input" })} 
+          style={item}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = "#06b6d4";
+            e.currentTarget.style.background = "#0a1929";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = "#333";
+            e.currentTarget.style.background = "#000";
+          }}
+        >
           📁 Input file
         </div>
       </div>
@@ -156,6 +168,16 @@ export default function Sidebar() {
                       opacity: 0.9,
                       fontSize: 12
                     } as any}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "#666";
+                      e.currentTarget.style.background = "#111";
+                      e.currentTarget.style.opacity = "1";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "#333";
+                      e.currentTarget.style.background = "#000";
+                      e.currentTarget.style.opacity = "0.9";
+                    }}
                   >
                     {cmd.label}
                   </div>
@@ -168,8 +190,20 @@ export default function Sidebar() {
 
       {/* Destinations */}
       <div style={{ marginTop: 12 }}>
-        <div style={sectionTitle}>Destinations</div>
-        <div draggable onDragStart={drag({ type: "output" })} style={item}>
+        <div style={sectionTitle}>DESTINATIONS</div>
+        <div 
+          draggable 
+          onDragStart={drag({ type: "output" })} 
+          style={item}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = "#666";
+            e.currentTarget.style.background = "#111";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = "#333";
+            e.currentTarget.style.background = "#000";
+          }}
+        >
           📄 Output file
         </div>
       </div>
@@ -193,6 +227,14 @@ export default function Sidebar() {
               })}
               style={{ ...item, fontSize: 12 } as any}
               title="Conditional branch"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#666";
+                e.currentTarget.style.background = "#111";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#333";
+                e.currentTarget.style.background = "#000";
+              }}
             >
               🔀 if/then/else
             </div>
@@ -205,6 +247,14 @@ export default function Sidebar() {
               })}
               style={{ ...item, fontSize: 12 } as any}
               title="For loop"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#06b6d4";
+                e.currentTarget.style.background = "#0a1929";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#1e293b";
+                e.currentTarget.style.background = "#0f172a";
+              }}
             >
               🔄 for loop
             </div>
@@ -217,6 +267,14 @@ export default function Sidebar() {
               })}
               style={{ ...item, fontSize: 12 } as any}
               title="While loop"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#06b6d4";
+                e.currentTarget.style.background = "#0a1929";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#1e293b";
+                e.currentTarget.style.background = "#0f172a";
+              }}
             >
               🔄 while loop
             </div>
