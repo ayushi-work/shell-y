@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import ExportPanel from "./ExportPanel";
 
-export default function ScriptPreview({ script, nodes, edges }: any) {
+export default function ScriptPreview({ script, nodes, edges, onLoadLayout }: any) {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = useCallback(() => {
@@ -57,7 +57,7 @@ export default function ScriptPreview({ script, nodes, edges }: any) {
         {copied ? "✓ Copied!" : "📋 Copy"}
       </button>
 
-      <ExportPanel script={script} nodes={nodes} edges={edges} />
+      <ExportPanel script={script} nodes={nodes} edges={edges} onLoadLayout={onLoadLayout} />
     </div>
   );
 }

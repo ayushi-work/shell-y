@@ -403,19 +403,16 @@ function buildFinalScript(commands: string[], variables: Record<string, string>,
     scriptParts.push("");
   }
 
-  // Join commands with pipes
+  // Join commands: pipe unless previous command redirected its output
+  // Use newline between unrelated commands (after a redirect)
   let pipedScript = "";
   for (let i = 0; i < commands.length; i++) {
     const cmd = commands[i];
-    
-    // Check if command contains output redirection
-    if (cmd.includes(">")) {
-      // Output redirection, don't add pipe
-      pipedScript += cmd;
-    } else if (i < commands.length - 1 && !commands[i + 1].includes(">")) {
-      pipedScript += cmd + " | ";
+    if (i === 0) {
+      pipedScript = cmd;
     } else {
-      pipedScript += cmd;
+      const prevRedirect = commands[i - 1].includes(">");
+      pipedScript += prevRedirect ? "\n" + cmd : " | " + cmd;
     }
   }
 

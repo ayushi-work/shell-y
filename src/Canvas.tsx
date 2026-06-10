@@ -7,7 +7,7 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import type { Edge, Connection } from "reactflow";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { v4 as uuid } from "uuid";
 
 import CommandBlock from "./CommandBlock";
@@ -45,19 +45,23 @@ export default function Canvas() {
     version: "1.0.0"
   });
   const { screenToFlowPosition } = useReactFlow();
+  const historyIndexRef = useRef(historyIndex);
+
+  useEffect(() => {
+    historyIndexRef.current = historyIndex;
+  });
 
   const updateNodesAndEdges = useCallback((newNodes: any[], newEdges: Edge[]) => {
     setNodes(newNodes);
     setEdges(newEdges);
-    
-    // Add to history
+
     setHistory(prev => {
-      const newHistory = prev.slice(0, historyIndex + 1);
+      const newHistory = prev.slice(0, historyIndexRef.current + 1);
       newHistory.push({ nodes: newNodes, edges: newEdges });
       return newHistory;
     });
     setHistoryIndex(prev => prev + 1);
-  }, [historyIndex]);
+  }, []);
 
   const undo = useCallback(() => {
     if (historyIndex > 0) {
@@ -81,6 +85,16 @@ export default function Canvas() {
     }
   }, [history, historyIndex]);
 
+  const deleteSelected = useCallback(() => {
+    if (!selected) return;
+    const newNodes = nodes.filter(n => n.id !== selected.id);
+    const newEdges = edges.filter(
+      e => e.source !== selected.id && e.target !== selected.id
+    );
+    setSelected(null);
+    updateNodesAndEdges(newNodes, newEdges);
+  }, [selected, nodes, edges, updateNodesAndEdges]);
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -90,12 +104,16 @@ export default function Canvas() {
       } else if ((e.ctrlKey || e.metaKey) && (e.key === "y" || (e.key === "z" && e.shiftKey))) {
         e.preventDefault();
         redo();
+      } else if ((e.key === "Delete" || e.key === "Backspace") && selected) {
+        // Don't trigger browser back navigation on Backspace
+        if (e.key === "Backspace") e.preventDefault();
+        deleteSelected();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [undo, redo]);
+  }, [undo, redo, deleteSelected, selected]);
 
   const onDrop = useCallback((e: any) => {
     e.preventDefault();
@@ -224,6 +242,12 @@ export default function Canvas() {
               updateNodesAndEdges(nodes, newEdges);
             }}
             onNodeClick={(_, n) => setSelected(n)}
+            onNodeDragStop={(_, n) => {
+              const newNodes = nodes.map(node =>
+                node.id === n.id ? { ...node, position: n.position } : node
+              );
+              updateNodesAndEdges(newNodes, edges);
+            }}
             onNodesChange={(changes) => {
               const newNodes = [...nodes];
               changes.forEach((change: any) => {
@@ -240,17 +264,13 @@ export default function Canvas() {
               setNodes(newNodes);
             }}
             onEdgesChange={(changes) => {
-              // Handle edge changes
-              setEdges((eds) => {
-                const newEdges = [...eds];
-                changes.forEach((change: any) => {
-                  if (change.type === "remove") {
-                    const index = newEdges.findIndex(e => e.id === change.id);
-                    if (index !== -1) newEdges.splice(index, 1);
-                  }
-                });
-                return newEdges;
-              });
+              const removedIds = changes
+                .filter((c: any) => c.type === "remove")
+                .map((c: any) => c.id);
+              if (removedIds.length > 0) {
+                const newEdges = edges.filter(e => !removedIds.includes(e.id));
+                updateNodesAndEdges(nodes, newEdges);
+              }
             }}
             defaultEdgeOptions={{
               style: { stroke: "#666", strokeWidth: 2 },
@@ -290,6 +310,7 @@ export default function Canvas() {
           }}>
             <ConfigPanel
               node={selected}
+              onDelete={deleteSelected}
               onChange={(data: any) => {
                 const newNodes = nodes.map((n) =>
                   n.id === selected?.id ? { ...n, data } : n
@@ -304,6 +325,10 @@ export default function Canvas() {
           script={generateScript(nodes, edges, scriptConfig)}
           nodes={nodes}
           edges={edges}
+          onLoadLayout={({ nodes: loadedNodes, edges: loadedEdges }: any) => {
+            updateNodesAndEdges(loadedNodes, loadedEdges);
+            setSelected(null);
+          }}
         />
       </div>
     </div>

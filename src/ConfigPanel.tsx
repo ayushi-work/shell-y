@@ -1,6 +1,6 @@
 import { COMMAND_DEFINITIONS } from "./commandDefinitions";
 
-export default function ConfigPanel({ node, onChange }: any) {
+export default function ConfigPanel({ node, onChange, onDelete }: any) {
   if (!node) return null;
 
   const panelStyle = {
@@ -40,7 +40,14 @@ export default function ConfigPanel({ node, onChange }: any) {
   if (node.type === "input") {
     return (
       <div style={panelStyle}>
-        <h3 style={{ margin: "0 0 4px 0" }}>📁 Input File</h3>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+          <h3 style={{ margin: 0 }}>📁 Input File</h3>
+          <button
+            onClick={onDelete}
+            title="Delete node (Delete key)"
+            style={deleteBtnStyle}
+          >✕</button>
+        </div>
         <div style={labelStyle}>File path</div>
         <input
           value={node.data.path || ""}
@@ -56,7 +63,10 @@ export default function ConfigPanel({ node, onChange }: any) {
   if (node.type === "output") {
     return (
       <div style={panelStyle}>
-        <h3 style={{ margin: "0 0 4px 0" }}>📄 Output File</h3>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+          <h3 style={{ margin: 0 }}>📄 Output File</h3>
+          <button onClick={onDelete} title="Delete node (Delete key)" style={deleteBtnStyle}>✕</button>
+        </div>
         <div style={labelStyle}>File path</div>
         <input
           value={node.data.path || ""}
@@ -101,9 +111,12 @@ export default function ConfigPanel({ node, onChange }: any) {
 
   return (
     <div style={panelStyle}>
-      <div>
-        <h3 style={{ margin: "0 0 4px 0" }}>{cmd.label}</h3>
-        <div style={{ fontSize: 11, opacity: 0.6 }}>{cmd.description}</div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div>
+          <h3 style={{ margin: "0 0 4px 0" }}>{cmd.label}</h3>
+          <div style={{ fontSize: 11, opacity: 0.6 }}>{cmd.description}</div>
+        </div>
+        <button onClick={onDelete} title="Delete node (Delete key)" style={deleteBtnStyle}>✕</button>
       </div>
 
       {/* Basic Parameters */}
@@ -248,3 +261,15 @@ export default function ConfigPanel({ node, onChange }: any) {
     </div>
   );
 }
+
+const deleteBtnStyle: React.CSSProperties = {
+  background: "none",
+  border: "1px solid #333",
+  color: "#999",
+  cursor: "pointer",
+  fontSize: 14,
+  padding: "2px 8px",
+  borderRadius: 4,
+  lineHeight: "1.4",
+  flexShrink: 0
+};
