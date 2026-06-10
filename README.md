@@ -2,9 +2,6 @@
 
 Transform shell scripting from code-heavy text editing to intuitive visual drag-and-drop design.
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
-[![License](https://img.shields.io/badge/license-MIT-blue)]()
-[![React](https://img.shields.io/badge/React-19.2-blue)](https://react.dev)
 
 ## ✨ Features
 
