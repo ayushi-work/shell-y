@@ -22,6 +22,7 @@ export interface CommandDefinition {
   acceptsInput?: boolean; // Can receive piped input
   producesOutput?: boolean; // Produces output to pipe
   allowsRedirect?: boolean;
+  primaryDisplay?: string; // Param name to show as the node's primary label
 }
 
 export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
@@ -58,7 +59,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["grep 'error' log.txt", "grep -i 'warning' file.log"],
     acceptsInput: true,
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "pattern"
   },
 
   sed: {
@@ -84,7 +86,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["sed 's/error/ERROR/g'"],
     acceptsInput: true,
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "expression"
   },
 
   awk: {
@@ -110,7 +113,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["awk '{print $1}'", "awk -F: '{print $1}'"],
     acceptsInput: true,
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "program"
   },
 
   cut: {
@@ -136,7 +140,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["cut -d: -f1,3", "cut -c1-10"],
     acceptsInput: true,
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "fields"
   },
 
   sort: {
@@ -209,7 +214,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["tr 'a-z' 'A-Z'", "tr -d ' '"],
     acceptsInput: true,
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "set1"
   },
 
   // File Operations
@@ -242,7 +248,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
       }
     ],
     examples: ["find . -name '*.log'", "find /home -type f -name 'test*'"],
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "name"
   },
 
   ls: {
@@ -275,7 +282,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
       }
     ],
     examples: ["ls -la", "ls -R /path"],
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "path"
   },
 
   cp: {
@@ -302,7 +310,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["cp file.txt backup.txt", "cp -r dir/ backup/"],
     acceptsInput: false,
-    producesOutput: false
+    producesOutput: false,
+    primaryDisplay: "source"
   },
 
   mv: {
@@ -329,7 +338,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["mv old.txt new.txt", "mv file.txt /archive/"],
     acceptsInput: false,
-    producesOutput: false
+    producesOutput: false,
+    primaryDisplay: "source"
   },
 
   rm: {
@@ -356,7 +366,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["rm file.txt", "rm -rf directory/"],
     acceptsInput: false,
-    producesOutput: false
+    producesOutput: false,
+    primaryDisplay: "target"
   },
 
   chmod: {
@@ -379,7 +390,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["chmod 755 script.sh", "chmod +x file.sh"],
     acceptsInput: false,
-    producesOutput: false
+    producesOutput: false,
+    primaryDisplay: "mode"
   },
 
   // Network
@@ -417,7 +429,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
       }
     ],
     examples: ["curl https://api.example.com", "curl -X POST -d '{}'"],
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "url"
   },
 
   wget: {
@@ -439,7 +452,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
       }
     ],
     examples: ["wget https://example.com/file.zip"],
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "url"
   },
 
   ssh: {
@@ -463,7 +477,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["ssh user@host", "ssh user@host 'ls /home'"],
     acceptsInput: false,
-    producesOutput: true
+    producesOutput: true,
+    primaryDisplay: "host"
   },
 
   scp: {
@@ -485,7 +500,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["scp file.txt user@host:/path/", "scp -r dir/ user@host:"],
     acceptsInput: false,
-    producesOutput: false
+    producesOutput: false,
+    primaryDisplay: "source"
   },
 
   // System
@@ -576,7 +592,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     examples: ["[ -f file.txt ]", "[ $var -eq 0 ]"],
     acceptsInput: false,
     producesOutput: false,
-    allowsRedirect: false
+    allowsRedirect: false,
+    primaryDisplay: "condition"
   },
 
   for: {
@@ -600,7 +617,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["for i in 1 2 3", "for file in *.txt"],
     acceptsInput: false,
-    producesOutput: false
+    producesOutput: false,
+    primaryDisplay: "variable"
   },
 
   while: {
@@ -618,7 +636,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     ],
     examples: ["[ $i -lt 10 ]"],
     acceptsInput: false,
-    producesOutput: false
+    producesOutput: false,
+    primaryDisplay: "condition"
   }
 };
 
